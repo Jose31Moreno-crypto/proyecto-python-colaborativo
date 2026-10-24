@@ -21,6 +21,22 @@ def consultar_edad():
         print(f"{nombre_ingresado} tiene {edades[nombre_ingresado]} años.")
     else:
         print(f"La persona '{nombre_ingresado}' no fue encontrada.")
+        
+    # Mi aporte: permitir consultar varias personas
+    while True:
+        nombre_ingresado = input(
+            "Ingresa un nombre o escribe 'salir' para terminar: "
+        ).strip().capitalize()
+
+        if nombre_ingresado == "Salir":
+            print("Gracias por utilizar el sistema.")
+            break
+
+        if nombre_ingresado in edades:
+            print(f"{nombre_ingresado} tiene {edades[nombre_ingresado]} años.")
+        else:
+            print(f"La persona '{nombre_ingresado}' no fue encontrada.")
+
 
 if __name__ == "__main__":
     consultar_edad()
