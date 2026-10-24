@@ -8,17 +8,3 @@ def imprimir_cuento():
 
 if __name__ == "__main__":
     imprimir_cuento()
-
-
-
-# Aporte de otro participante: mis metas y sueños
-
-meta_personal = input("¿Cuál es tu meta personal?: ")
-talento = input("¿Qué talento te gustaría desarrollar?: ")
-lugar = input("¿Qué lugar te gustaría conocer?: ")
-
-print("\n--- Mis sueños y aspiraciones ---")
-print("Una de mis metas personales es " + meta_personal + ".")
-print("Quiero desarrollar mi talento en " + talento + ".")
-print("Me gustaría conocer " + lugar + ".")
-print("Con dedicación y esfuerzo, trabajaré para alcanzar mis sueños.")
