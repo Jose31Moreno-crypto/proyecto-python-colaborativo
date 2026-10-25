@@ -1,3 +1,4 @@
+from aporte_suenos import agregar_suenos
 def generar_historia():
     print("=== REGISTRO DEL PROTAGONISTA ===")
     
@@ -27,6 +28,9 @@ def generar_historia():
     print(f"Uno de sus logros más importantes es {logro}.")
     print("Cada experiencia le enseña algo nuevo y le ayuda a crecer como persona.")
     print("Su historia continúa con nuevos retos, aprendizajes y oportunidades.")
+    
+    # Mi aporte: sueños y motivaciones del protagonista
+    agregar_suenos(nombre)
 
 if __name__ == "__main__":
     generar_historia()
