@@ -14,7 +14,7 @@ def consultar_edad():
     print("=== SISTEMA DE CONSULTA DE EDADES ===")
     
     # 3. Solicitar al usuario que ingrese un nombre
-    nombre_ingresado = input("Ingresa un nombre: ")
+    nombre_ingresado = input("Ingresa un nombre: ").strip().capitalize()
     
     # 4. Usar condicionales para verificar si el nombre está en el diccionario
     if nombre_ingresado in edades:
