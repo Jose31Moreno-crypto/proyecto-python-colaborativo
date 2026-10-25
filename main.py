@@ -28,5 +28,8 @@ def generar_historia():
     print("Cada experiencia le enseña algo nuevo y le ayuda a crecer como persona.")
     print("Su historia continúa con nuevos retos, aprendizajes y oportunidades.")
 
+    # Mi aporte: sueños y motivaciones del protagonista
+    agregar_suenos(nombre)
+
 if __name__ == "__main__":
     generar_historia()
