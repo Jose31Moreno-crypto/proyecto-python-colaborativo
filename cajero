@@ -1,0 +1,82 @@
+def cajero_automatico():
+    # Diccionario de múltiples usuarios y sus PINs/saldos (Consideración: Múltiples usuarios y PIN)
+    # Estructura: "usuario": {"pin": "1234", "saldo": 1000, "historial": []}
+    usuarios = {
+        "Anyi": {"pin": "1111", "saldo": 1500, "historial": []},
+        "Jose": {"pin": "2222", "saldo": 2000, "historial": []},
+        "Saddam": {"pin": "3333", "saldo": 1200, "historial": []}
+    }
+    
+    print("=== BANCO UNIVERSITARIO ===")
+    nombre_usuario = input("Ingrese su usuario (Anyi / Jose / Saddam): ")
+    
+    if nombre_usuario in usuarios:
+        intentos = 3
+        while intentos > 0:
+            pin_ingresado = input(f"Hola {nombre_usuario}, ingrese su PIN de 4 dígitos: ")
+            if pin_ingresado == usuarios[nombre_usuario]["pin"]:
+                print("\n¡PIN correcto! Accediendo al sistema...")
+                
+                # Menú principal del cajero
+                saldo = usuarios[nombre_usuario]["saldo"]
+                historial = usuarios[nombre_usuario]["historial"]
+                opcion = 0
+                
+                while opcion != 5:
+                    print("\n--- MENÚ CAJERO AUTOMÁTICO ---")
+                    print("1. Consultar saldo")
+                    print("2. Depositar dinero")
+                    print("3. Retirar dinero")
+                    print("4. Ver historial de movimientos")
+                    print("5. Salir")
+                    
+                    try:
+                        opcion = int(input("Selecciona una opción: "))
+                    except ValueError:
+                        print("Por favor, ingresa un número válido.")
+                        continue
+                    
+                    if opcion == 1:
+                        print(f"Tu saldo actual es: ${saldo}")
+                        
+                    elif opcion == 2:
+                        deposito = float(input("Ingrese la cantidad a depositar: $"))
+                        if deposito > 0:
+                            saldo += deposito
+                            historial.append(f"Depósito: +${deposito}")
+                            print(f"¡Depósito exitoso! Nuevo saldo: ${saldo}")
+                        else:
+                            print("Cantidad inválida.")
+                            
+                    elif opcion == 3:
+                        retiro = float(input("Ingrese la cantidad a retirar: $"))
+                        if 0 < retiro <= saldo:
+                            saldo -= retiro
+                            historial.append(f"Retiro: -${retiro}")
+                            print(f"¡Retiro exitoso! Nuevo saldo: ${saldo}")
+                        else:
+                            print("Fondos insuficientes o cantidad inválida.")
+                            
+                    elif opcion == 4:
+                        print("\n--- HISTORIAL DE MOVIMIENTOS ---")
+                        if len(historial) == 0:
+                            print("No hay movimientos registrados.")
+                        else:
+                            for movimiento in historial:
+                                print(f"- {movimiento}")
+                                
+                    elif opcion == 5:
+                        print(f"\nGracias por usar el cajero, {nombre_usuario}. ¡Hasta luego!")
+                    else:
+                        print("Opción no válida. Intenta de nuevo.")
+                break
+            else:
+                intentos -= 1
+                print(f"PIN incorrecto. Te quedan {intentos} intentos.")
+        if intentos == 0:
+            print("Cuenta bloqueada por seguridad.")
+    else:
+        print("Usuario no encontrado en el sistema.")
+
+if __name__ == "__main__":
+    cajero_automatico()
