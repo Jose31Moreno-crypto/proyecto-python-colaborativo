@@ -21,6 +21,7 @@ def cajero_automatico():
                 saldo = usuarios[nombre_usuario]["saldo"]
                 historial = usuarios[nombre_usuario]["historial"]
                 opcion = 0
+
                 
                 while opcion != 5:
                     print("\n--- MENÚ CAJERO AUTOMÁTICO ---")
@@ -80,3 +81,251 @@ def cajero_automatico():
 
 if __name__ == "__main__":
     cajero_automatico()
+
+# ==========================================
+# PROYECTO: CAJERO AUTOMATICO
+# APORTE: JOSE MORENO
+# ==========================================
+
+def cajero_automatico():
+
+    usuarios = {
+        "Anyi": {
+            "pin": "1111",
+            "saldo": 1500.00,
+            "historial": [],
+            "depositos": 0.00,
+            "retiros": 0.00
+        },
+        "Jose": {
+            "pin": "2222",
+            "saldo": 2000.00,
+            "historial": [],
+            "depositos": 0.00,
+            "retiros": 0.00
+        },
+        "Saddam": {
+            "pin": "3333",
+            "saldo": 1200.00,
+            "historial": [],
+            "depositos": 0.00,
+            "retiros": 0.00
+        }
+    }
+
+    print("================================")
+    print("       BANCO UNIVERSITARIO")
+    print("================================")
+
+    while True:
+
+        usuario = input("\nIngrese su usuario: ")
+
+        if usuario not in usuarios:
+            print("Usuario no encontrado.")
+            continue
+
+        intentos = 3
+        acceso = False
+
+        while intentos > 0:
+
+            pin = input("Ingrese su PIN: ")
+
+            if pin == usuarios[usuario]["pin"]:
+                print("\nAcceso autorizado. Bienvenido", usuario)
+                acceso = True
+                break
+            else:
+                intentos -= 1
+                print("PIN incorrecto. Intentos restantes:", intentos)
+
+        if not acceso:
+            print("Cuenta bloqueada por seguridad.")
+            break
+
+        opcion = 0
+
+        while opcion != 7:
+
+            print("\n========== MENU DEL CAJERO ==========")
+            print("1. Consultar saldo")
+            print("2. Depositar dinero")
+            print("3. Retirar dinero")
+            print("4. Transferir dinero")
+            print("5. Consultar historial")
+            print("6. Cambiar PIN")
+            print("7. Cerrar sesion")
+            print("8. Resumen de operaciones")
+            print("=====================================")
+
+            try:
+                opcion = int(input("Seleccione una opcion: "))
+            except ValueError:
+                print("Debe ingresar una opcion numerica.")
+                continue
+
+            if opcion == 1:
+
+                print("Saldo disponible: $",
+                      format(usuarios[usuario]["saldo"], ".2f"))
+
+            elif opcion == 2:
+
+                try:
+                    cantidad = float(input("Cantidad a depositar: $"))
+
+                    if cantidad > 0:
+                        usuarios[usuario]["saldo"] += cantidad
+                        usuarios[usuario]["depositos"] += cantidad
+
+                        usuarios[usuario]["historial"].append(
+                            f"Deposito: +${cantidad:.2f}"
+                        )
+
+                        print("Deposito realizado correctamente.")
+                    else:
+                        print("La cantidad debe ser mayor que cero.")
+
+                except ValueError:
+                    print("Ingrese un monto valido.")
+
+            elif opcion == 3:
+
+                try:
+                    cantidad = float(input("Cantidad a retirar: $"))
+
+                    if cantidad <= 0:
+                        print("La cantidad debe ser mayor que cero.")
+
+                    elif cantidad <= usuarios[usuario]["saldo"]:
+
+                        usuarios[usuario]["saldo"] -= cantidad
+                        usuarios[usuario]["retiros"] += cantidad
+
+                        usuarios[usuario]["historial"].append(
+                            f"Retiro: -${cantidad:.2f}"
+                        )
+
+                        print("Retiro realizado correctamente.")
+
+                    else:
+                        print("Fondos insuficientes.")
+
+                except ValueError:
+                    print("Ingrese un monto valido.")
+
+            elif opcion == 4:
+
+                destino = input("Usuario destinatario: ")
+
+                if destino not in usuarios:
+                    print("El usuario no existe.")
+
+                elif destino == usuario:
+                    print("No puede transferirse dinero a si mismo.")
+
+                else:
+                    try:
+                        cantidad = float(input("Monto a transferir: $"))
+
+                        if cantidad <= 0:
+                            print("Monto invalido.")
+
+                        elif cantidad > usuarios[usuario]["saldo"]:
+                            print("Saldo insuficiente.")
+
+                        else:
+                            usuarios[usuario]["saldo"] -= cantidad
+                            usuarios[destino]["saldo"] += cantidad
+
+                            usuarios[usuario]["retiros"] += cantidad
+                            usuarios[destino]["depositos"] += cantidad
+
+                            usuarios[usuario]["historial"].append(
+                                f"Transferencia enviada a {destino}: "
+                                f"-${cantidad:.2f}"
+                            )
+
+                            usuarios[destino]["historial"].append(
+                                f"Transferencia recibida de {usuario}: "
+                                f"+${cantidad:.2f}"
+                            )
+
+                            print("Transferencia exitosa.")
+
+                    except ValueError:
+                        print("Ingrese un monto valido.")
+
+            elif opcion == 5:
+
+                print("\n====== HISTORIAL DE MOVIMIENTOS ======")
+
+                historial = usuarios[usuario]["historial"]
+
+                if not historial:
+                    print("No hay movimientos registrados.")
+                else:
+                    for movimiento in historial:
+                        print("-", movimiento)
+
+            elif opcion == 6:
+
+                pin_actual = input("Ingrese su PIN actual: ")
+
+                if pin_actual == usuarios[usuario]["pin"]:
+
+                    nuevo_pin = input("Ingrese su nuevo PIN de 4 digitos: ")
+
+                    if nuevo_pin.isdigit() and len(nuevo_pin) == 4:
+
+                        usuarios[usuario]["pin"] = nuevo_pin
+
+                        usuarios[usuario]["historial"].append(
+                            "Cambio de PIN realizado"
+                        )
+
+                        print("PIN actualizado correctamente.")
+
+                    else:
+                        print("El PIN debe tener exactamente 4 numeros.")
+
+                else:
+                    print("PIN actual incorrecto.")
+
+            elif opcion == 7:
+
+                print("Sesion cerrada correctamente.")
+                print("Hasta luego,", usuario)
+
+            elif opcion == 8:
+
+                print("\n====== RESUMEN DE OPERACIONES ======")
+
+                print("Usuario:", usuario)
+                print("Total depositado: $",
+                      format(usuarios[usuario]["depositos"], ".2f"))
+
+                print("Total retirado: $",
+                      format(usuarios[usuario]["retiros"], ".2f"))
+
+                print("Saldo actual: $",
+                      format(usuarios[usuario]["saldo"], ".2f"))
+
+                print("Movimientos registrados:",
+                      len(usuarios[usuario]["historial"]))
+
+            else:
+                print("Opcion no valida.")
+
+        continuar = input("\n¿Desea ingresar otro usuario? (S/N): ")
+
+        if continuar.lower() not in ["s", "si", "sí"]:
+            break
+
+    print("\nGracias por utilizar el Banco Universitario.")
+
+
+if __name__ == "__main__":
+    cajero_automatico()
+
