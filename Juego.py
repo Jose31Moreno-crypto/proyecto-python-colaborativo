@@ -1,67 +1,5 @@
 import random
 
-def jugar_adivina_numero():
-    print("=== JUEGO: ADIVINA EL NÚMERO SECRETO ===")
-    
-    jugar_nuevamente = "sí"
-    
-    while jugar_nuevamente.lower() in ["sí", "si", "s"]:
-        # 3. Niveles de dificultad
-        print("\nSelecciona el nivel de dificultad:")
-        print("1. Fácil (1 al 10)")
-        print("2. Medio (1 al 20)")
-        print("3. Difícil (1 al 50)")
-        
-        opcion = input("Elige una opción (1, 2 o 3): ")
-        
-        if opcion == "1":
-            limite = 10
-        elif opcion == "3":
-            limite = 50
-        else:
-            limite = 20  # Por defecto medio
-            
-        # Generar número secreto
-        numero_secreto = random.randint(1, limite)
-        
-        # 1. Límites de intentos (máximo 5)
-        intentos_maximos = 5
-        intentos_realizados = 0
-        adivinado = False
-        
-        print(f"\n¡He pensado un número entre 1 y {limite}! Tienes {intentos_maximos} intentos para adivinarlo.")
-        
-        while intentos_realizados < intentos_maximos:
-            try:
-                intento = int(input(f"\nIntento {intentos_realizados + 1} de {intentos_maximos}. Ingresa tu número: "))
-            except ValueError:
-                print("Por favor, ingresa un número válido.")
-                continue
-                
-            intentos_realizados += 1
-            
-            if intento == numero_secreto:
-                print(f"¡Felicidades! Adivinaste el número secreto en {intentos_realizados} intentos.")
-                adivinado = True
-                break
-            elif intento < numero_secreto:
-                print("El número secreto es MAYOR.")
-            else:
-                print("El número secreto es MENOR.")
-                
-        if not adivinado:
-            print(f"\n¡Se te acabaron los intentos! El número secreto era: {numero_secreto}.")
-            
-        # 2. Repetir juego
-        jugar_nuevamente = input("\n¿Quieres jugar otra vez? (sí/no): ")
-
-    print("\n¡Gracias por jugar!")
-
-if __name__ == "__main__":
-    jugar_adivina_numero()
-  
-
-import random
 
 def jugar_adivina_numero():
     partidas_ganadas = 0
@@ -80,7 +18,7 @@ def jugar_adivina_numero():
         print("2. Medio (1 al 20)")
         print("3. Dificil (1 al 50)")
 
-        opcion = input("Selecciona una opcion: ")
+        opcion = input("Selecciona una opcion: ").strip()
 
         if opcion == "1":
             limite = 10
@@ -99,15 +37,54 @@ def jugar_adivina_numero():
         numeros_usados = []
         adivinado = False
 
+        # 4. Pistas extra o comodines: se renuevan en cada partida
+        comodines_maximos = 2
+        comodines_usados = 0
+
         print("\nHe generado un numero entre 1 y", limite)
         print("Tienes 5 intentos para adivinarlo.")
+        print("Tienes 2 comodines por partida; usarlos no gasta intentos.")
+        print("Primer comodin: par o impar. Segundo comodin: rango mas pequeño.")
+        print("Escribe 'pista' o 'comodin' cuando quieras pedir una pista extra.")
 
         while intentos < intentos_maximos:
 
+            entrada = input(
+                f"\nIntento {intentos + 1} de {intentos_maximos}. "
+                "Ingresa tu numero o escribe 'pista': "
+            ).strip().lower()
+
+            # Revisar el comando antes de convertir la entrada a un numero
+            if entrada in ["pista", "comodin", "comodín"]:
+                if comodines_usados >= comodines_maximos:
+                    print("Ya usaste tus 2 comodines en esta partida.")
+                    continue
+
+                if comodines_usados == 0:
+                    if numero_secreto % 2 == 0:
+                        print("Pista extra: el numero secreto es PAR.")
+                    else:
+                        print("Pista extra: el numero secreto es IMPAR.")
+                else:
+                    # Elegir un intervalo pequeño que contenga el numero secreto
+                    tamano_rango = max(3, limite // 5)
+                    inicio_minimo = max(1, numero_secreto - tamano_rango + 1)
+                    inicio_maximo = min(numero_secreto, limite - tamano_rango + 1)
+                    inicio_rango = random.randint(inicio_minimo, inicio_maximo)
+                    fin_rango = inicio_rango + tamano_rango - 1
+                    print(
+                        f"Pista extra: el numero secreto esta entre {inicio_rango} "
+                        f"y {fin_rango}, incluidos."
+                    )
+
+                comodines_usados += 1
+                print("Comodines restantes:", comodines_maximos - comodines_usados)
+                continue  # Pedir una pista no consume un intento
+
             try:
-                numero = int(input("\nIngresa tu numero: "))
+                numero = int(entrada)
             except ValueError:
-                print("Error: debes ingresar un numero valido.")
+                print("Error: ingresa un numero valido, 'pista' o 'comodin'.")
                 continue
 
             if numero < 1 or numero > limite:
@@ -159,7 +136,7 @@ def jugar_adivina_numero():
 
         jugar_nuevamente = input(
             "\n¿Deseas jugar nuevamente? (si/no): "
-        )
+        ).strip()
 
     print("\n¡Gracias por jugar!")
     print("Total de partidas ganadas:", partidas_ganadas)
@@ -168,3 +145,5 @@ def jugar_adivina_numero():
 
 if __name__ == "__main__":
     jugar_adivina_numero()
+
+
