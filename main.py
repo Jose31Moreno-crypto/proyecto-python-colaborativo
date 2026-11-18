@@ -1,35 +1,46 @@
-def generar_historia():
-    print("=== REGISTRO DEL PROTAGONISTA ===")
-    
-    # Entradas del usuario
-    nombre = input("Ingresa tu nombre: ")
-    edad = input("Ingresa tu edad: ")
-    ciudad = input("Ingresa tu ciudad de residencia: ")
-    
-    # Mi aporte personal a la historia
-    profesion = input("¿Cuál es tu profesión o pasatiempo favorito?: ")
-    
-    print("\n--- LA HISTORIA COMIENZA ---")
-    # Salida personalizada
-    print(f"¡Hola, {nombre}! Tienes {edad} años y vives en {ciudad}.")
-    
-    # Línea narrativa de mi aporte
-    print(f"Los días en {ciudad} transcurren mientras te dedicas con entusiasmo a {profesion}.")
+# Importar el módulo operaciones creado por el equipo
+import operaciones
 
-    # Aporte personal: experiencias y logros del protagonista
-    objetivo = input("¿Qué objetivo quieres alcanzar este año?: ")
-    obstaculo = input("¿Qué dificultad quieres superar?: ")
-    logro = input("¿De qué logro te sientes orgulloso?: ")
+def calculadora():
+    print("=== CALCULADORA BÁSICA DEL EQUIPO ===")
 
-    print("\n--- NUEVO CAPÍTULO DE MI HISTORIA ---")
-    print(f"Este año, {nombre} quiere alcanzar el objetivo de {objetivo}.")
-    print(f"Para lograrlo, deberá superar la dificultad de {obstaculo}.")
-    print(f"Uno de sus logros más importantes es {logro}.")
-    print("Cada experiencia le enseña algo nuevo y le ayuda a crecer como persona.")
-    print("Su historia continúa con nuevos retos, aprendizajes y oportunidades.")
+    try:
+        # Solicitar al usuario dos números
+        num1 = float(input("Ingresa el primer número: "))
+        num2 = float(input("Ingresa el segundo número: "))
+    except ValueError:
+        print("Por favor, ingresa números válidos.")
+        return
 
-    # Mi aporte: sueños y motivaciones del protagonista
-    agregar_suenos(nombre)
+    # Solicitar la operación que desea realizar
+    print("\nSelecciona la operación:")
+    print("1. Suma (+)")
+    print("2. Resta (-)")
+    print("3. Multiplicación (*)")
+    print("4. División (/)")
+
+    opcion = input("Ingresa el número de la operación (1/2/3/4) o el símbolo: ")
+
+    # Utilizar las funciones del módulo operaciones.py (nota que usa 'suma', 'resta', 'multiplicacion', 'division')
+    if opcion == "1" or opcion == "+":
+        resultado = operaciones.suma(num1, num2)
+        print(f"\nEl resultado de la suma es: {resultado}")
+
+    elif opcion == "2" or opcion == "-":
+        resultado = operaciones.resta(num1, num2)
+        print(f"\nEl resultado de la resta es: {resultado}")
+
+    elif opcion == "3" or opcion == "*":
+        resultado = operaciones.multiplicacion(num1, num2)
+        print(f"\nEl resultado de la multiplicación es: {resultado}")
+
+    elif opcion == "4" or opcion == "/":
+        resultado = operaciones.division(num1, num2)
+        print(f"\nEl resultado de la división es: {resultado}")
+
+    else:
+        print("\nOperación no válida.")
 
 if __name__ == "__main__":
-    generar_historia()
+    calculadora()
+    
